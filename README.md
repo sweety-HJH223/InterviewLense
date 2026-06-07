@@ -48,3 +48,21 @@ npm install
 ```
 
 Create `.env.local`:
+GEMINI_API_KEY=your_gemini_api_key
+
+Run:
+```bash
+npm run dev
+```
+
+Open `http://localhost:3000`
+
+## Agent Pipeline
+
+Visit `/logs` to see all 3 agents communicating in real time.
+
+## Built For
+
+Google Gen AI Academy APAC 2026 — Meet the Builders Campaign
+
+Built by Subhashree Behera
