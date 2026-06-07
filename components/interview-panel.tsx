@@ -171,7 +171,24 @@ export function InterviewPanel() {
 
   const handleSendMessage = async () => {
     if (!userInput.trim()) return
-    const userMessage = {id: Date.now().toString() + Math.random().toString(), type: 'user' as const, content: userInput, timestamp: new Date()}
+    const userMessage: Message = {id: Date.now().toString() + Math.random().toString(), type: 'user', content: userInput, timestamp: new Date()}
+    
+    // 1. Fetch Feedback concurrently with interview context
+    const feedbackResponse = await fetch('/api/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            company, role, researchData, 
+            question: messages[messages.length - 1]?.content,
+            answer: userInput,
+            candidateId: candidateId || 'anonymous-user'
+        })
+    })
+    const feedbackData = await feedbackResponse.json()
+    if (feedbackData.success) {
+        userMessage.feedback = feedbackData.data
+    }
+
     setMessages(prev => [...prev, userMessage])
     setUserInput('')
     setQuestionCount(prev => prev + 1)
@@ -189,7 +206,7 @@ export function InterviewPanel() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     company, role, researchData, 
-                    conversationHistory: messages,
+                    conversationHistory: [...messages, userMessage],
                     userAnswer: userInput,
                     candidateId: candidateId || 'anonymous-user'
                 })
