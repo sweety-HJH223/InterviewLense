@@ -1,29 +1,14 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAnalytics, isSupported } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp, getApps } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAEa4toxF4Xn1tOgr7X0j91ZGLGxYXbrO8",
-  authDomain: "interview-lens-cdea1.firebaseapp.com",
-  projectId: "interview-lens-cdea1",
-  storageBucket: "interview-lens-cdea1.firebasestorage.app",
-  messagingSenderId: "911449728160",
-  appId: "1:911449728160:web:0c1b9605a5a27749bc95c5",
-  measurementId: "G-E75XRRF78G"
-};
-
-// Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-
-// Analytics is client-side only
-let analytics = null;
-if (typeof window !== "undefined") {
-  isSupported().then((supported) => {
-    if (supported) {
-      analytics = getAnalytics(app);
-    }
-  });
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-export const db = getFirestore(app);
-export { analytics };
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
+export const db = getFirestore(app)
