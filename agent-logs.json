@@ -206,5 +206,157 @@
     "output": {
       "question": "fallback used"
     }
+  },
+  {
+    "timestamp": "2026-06-07T11:52:31.337Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "google",
+      "role": "backend engineer ",
+      "userAnswer": "I was working on a payment processing service that was \nexperiencing random timeouts under high load. The system \nwas handling 10,000 transactions per day and failing 5% \nof them. I debugged it by adding distributed tracing with \nOpenTelemetry, discovered our database connection pool was \nexhausted during peak hours. I increased the pool size from \n10 to 50 connections and implemented a queue for overflow \nrequests. This reduced failures from 5% to 0.1% and improved \naverage response time from 800ms to 120ms."
+    },
+    "output": {
+      "question": "That's a great explanation of how you identified and resolved a critical performance bottleneck. Considering you significantly increased the database connection pool, what potential long-term scalability concerns might arise from that change, and how would you proactively monitor and mitigate them in a system with potentially millions of transactions per day?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T11:53:04.032Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "google",
+      "role": "backend engineer ",
+      "userAnswer": "Great question. Increasing the connection pool is a short-term \nfix but creates long-term risks. With millions of transactions, \neach database connection consumes memory — 50 connections per \nservice instance means if we scale to 100 instances we have \n5,000 connections hitting the database simultaneously, which \nmost databases can't handle.\n\nMy mitigation strategy would be three-fold. First, implement \na connection proxy like PgBouncer that pools connections at \nthe infrastructure level, allowing thousands of app connections \nto share a smaller pool of actual database connections. Second, \nintroduce read replicas to distribute read traffic — in our \npayment system, 70% of queries were reads like balance checks \nand transaction history. Third, set up monitoring with \nPrometheus and Grafana tracking connection pool utilization, \nquery latency p95 and p99, and database CPU — with alerts \nat 70% threshold so we respond before hitting limits.\n\nAt Google scale I would also evaluate moving to a distributed \ndatabase like Spanner that handles horizontal scaling natively."
+    },
+    "output": {
+      "question": "That's a very comprehensive plan for scaling. You mentioned Spanner as a potential solution for massive scale; can you walk me through how you'd approach migrating a critical, stateful system like a payment processor to a globally distributed database like Spanner, considering factors like schema evolution and data consistency guarantees during the transition?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T11:53:13.106Z",
+    "agent": "Agent C - Evaluator",
+    "input": {
+      "question": "That's a very comprehensive plan for scaling. You mentioned Spanner as a potential solution for massive scale; can you walk me through how you'd approach migrating a critical, stateful system like a payment processor to a globally distributed database like Spanner, considering factors like schema evolution and data consistency guarantees during the transition?",
+      "answer": "I was working on a payment processing service that was \nexperiencing random timeouts under high load. The system \nwas handling 10,000 transactions per day and failing 5% \nof them. I debugged it by adding distributed tracing with \nOpenTelemetry, discovered our database connection pool was \nexhausted during peak hours. I increased the pool size from \n10 to 50 connections and implemented a queue for overflow \nrequests. This reduced failures from 5% to 0.1% and improved \naverage response time from 800ms to 120ms."
+    },
+    "output": {
+      "score": 1,
+      "verdict": "The candidate completely failed to answer the question asked. The answer provided describes a past problem and its solution, which is a common interview pattern, but it is entirely unrelated to the prompt about migrating a payment processor to Spanner. This demonstrates a severe disconnect between understanding the question and responding appropriately.",
+      "strengths": [],
+      "improvements": [
+        "Directly address the posed question regarding migrating a stateful system to Spanner.",
+        "Demonstrate knowledge of Spanner's capabilities and migration strategies.",
+        "Articulate a thought process for handling schema evolution and data consistency during a complex migration."
+      ],
+      "better_answer": "A stronger answer for Google would directly address the Spanner migration question. It would start by acknowledging Spanner's strengths for global distribution and strong consistency (e.g., its TrueTime API). Then, it would outline a phased migration strategy. For example, one could discuss a 'strangler pattern' where new traffic is gradually directed to the Spanner-based system, or a dual-write approach with a reconciliation mechanism. Key considerations would include: \n\n1. **Schema Evolution:** How to handle schema changes in a globally distributed, strongly consistent database. This might involve strategies like backward-compatible schema designs, feature flags, or scheduled, coordinated rollouts across regions.\n2. **Data Consistency Guarantees:** Explaining how Spanner's transactional guarantees (e.g., synchronous replication, two-phase commits) simplify maintaining consistency during the migration, and how to verify this consistency post-migration. This could involve discussing the challenges of migrating from a less consistent system and how Spanner mitigates them.\n3. **Downtime Minimization:** Strategies like read-only migrations, logical replication to Spanner, and finally switching writes, all while ensuring data integrity.\n4. **Testing and Rollback:** The importance of robust testing in staging environments mimicking production load and a clear rollback plan.\n\nThe candidate would then be expected to discuss potential trade-offs, such as increased latency for some operations due to global distribution or the operational complexity of managing Spanner.",
+      "cultural_tip": "At Google, interviewers specifically want to see if you can deconstruct a complex problem, articulate a systematic approach with clear reasoning, discuss trade-offs, and demonstrate technical depth relevant to the problem domain. Simply providing a solution to an unrelated problem, no matter how well-executed, is insufficient if it doesn't address the prompt."
+    }
+  },
+  {
+    "timestamp": "2026-06-07T11:53:20.277Z",
+    "agent": "Agent C - Evaluator",
+    "input": {
+      "question": "That's a very comprehensive plan for scaling. You mentioned Spanner as a potential solution for massive scale; can you walk me through how you'd approach migrating a critical, stateful system like a payment processor to a globally distributed database like Spanner, considering factors like schema evolution and data consistency guarantees during the transition?",
+      "answer": "Great question. Increasing the connection pool is a short-term \nfix but creates long-term risks. With millions of transactions, \neach database connection consumes memory — 50 connections per \nservice instance means if we scale to 100 instances we have \n5,000 connections hitting the database simultaneously, which \nmost databases can't handle.\n\nMy mitigation strategy would be three-fold. First, implement \na connection proxy like PgBouncer that pools connections at \nthe infrastructure level, allowing thousands of app connections \nto share a smaller pool of actual database connections. Second, \nintroduce read replicas to distribute read traffic — in our \npayment system, 70% of queries were reads like balance checks \nand transaction history. Third, set up monitoring with \nPrometheus and Grafana tracking connection pool utilization, \nquery latency p95 and p99, and database CPU — with alerts \nat 70% threshold so we respond before hitting limits.\n\nAt Google scale I would also evaluate moving to a distributed \ndatabase like Spanner that handles horizontal scaling natively."
+    },
+    "output": {
+      "score": 2,
+      "verdict": "Reject - The candidate failed to answer the question asked, demonstrating a lack of attention to detail and inability to follow instructions. They addressed a scaling problem in general but completely ignored the core of the question regarding migrating a critical, stateful system to Spanner.",
+      "strengths": [
+        "Identified a short-term fix (increasing connection pool) and its risks.",
+        "Proposed valid technical solutions for scaling read traffic and managing connections (PgBouncer, read replicas, monitoring)."
+      ],
+      "improvements": [
+        "Did not address the core question about migrating to Spanner, including schema evolution and data consistency.",
+        "Showed an inability to articulate a thought process for a specific, complex migration scenario.",
+        "Failed to demonstrate technical proficiency in distributed databases and migration strategies.",
+        "Did not engage with the specific challenge of a 'critical, stateful system' like a payment processor."
+      ],
+      "better_answer": "A stronger answer for Google would directly address the Spanner migration question. It would acknowledge the complexity of migrating a stateful system like a payment processor and outline a phased approach. Key elements to cover would include: \n\n1.  **Understanding Spanner's capabilities and constraints:** Discussing Spanner's distributed nature, ACID guarantees, and potential implications for a payment system.\n2.  **Migration Strategy:** \n    *   **Phased rollout/dual-write:** How to transition writes to Spanner while keeping the old system operational, managing consistency during this period.\n    *   **Data synchronization:** Strategies for migrating existing data to Spanner without downtime or data loss (e.g., using batch jobs, change data capture).\n    *   **Cutover plan:** How to seamlessly switch over to Spanner for all operations.\n3.  **Schema Evolution:** \n    *   How to handle schema changes in a distributed, globally replicated database like Spanner, considering the impact on availability and consistency.\n    *   Strategies for zero-downtime schema migrations.\n4.  **Data Consistency Guarantees:** \n    *   How Spanner's strong consistency model (externally consistent transactions) benefits a payment processor.\n    *   Discussing potential challenges and how to verify consistency during and after migration.\n5.  **Operational Considerations:** \n    *   Monitoring Spanner for performance and availability.\n    *   Disaster recovery and high availability strategies for a Spanner deployment.\n    *   Cost implications.\n\nFor example, a candidate might say: 'Migrating a critical payment processor to Spanner is a significant undertaking due to its stateful nature and the need for strong consistency. My approach would involve a multi-phase strategy to minimize risk and downtime. \n\nFirst, I'd conduct a thorough analysis of the existing schema and identify tables that are critical and how they map to Spanner's global schema design principles. We'd then likely employ a dual-write strategy. For a period, new transactions would be written to both the existing system and Spanner. This requires careful coordination to ensure consistency, potentially using event sourcing or a Kafka-like stream to capture and apply transactions to both systems. During this phase, we'd also perform a bulk data migration for historical data using Spanner's batch import capabilities or custom tooling, followed by incremental updates.\n\nSchema evolution would be managed carefully. For Spanner, schema changes are atomic and global. We'd need to plan these changes during low-traffic periods and ensure any application code changes are deployed ahead of the schema change. Data consistency is a major win with Spanner, as it provides external consistency. We'd leverage this for our financial transactions, ensuring ACID properties are maintained globally. We'd implement robust monitoring using Cloud Monitoring to track transaction latency, Spanner instance health, and replication lag, setting up alerts for any deviations from expected behavior. The cutover would be a carefully orchestrated event, likely involving a brief read-only period in the legacy system while the final data sync occurs before switching all read and write traffic to Spanner.'",
+      "cultural_tip": "At Google, interviewers specifically want candidates to demonstrate deep thinking about trade-offs, a structured approach to complex problems, and the ability to articulate their rationale. For system design questions, they expect more than just naming technologies; they want to understand *why* a technology is chosen, *how* it would be implemented, and the potential challenges and solutions involved, especially in the context of Google's scale and requirements."
+    }
+  },
+  {
+    "timestamp": "2026-06-07T12:09:25.939Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "google",
+      "role": "backend engineer",
+      "userAnswer": "umm\n"
+    },
+    "output": {
+      "question": "\"Okay, let's take a moment to think through that. Could you describe a time you had to make a significant design trade-off in a project, and how you reasoned through the pros and cons of different approaches to arrive at your final decision?\""
+    }
+  },
+  {
+    "timestamp": "2026-06-07T13:36:52.631Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer L3/L4/L5",
+      "userAnswer": "i am a AI and backend developer\n"
+    },
+    "output": {
+      "question": "That's a great starting point. Given your AI and backend development background, can you describe a time you encountered a significant technical challenge that required deep diving into a complex system or algorithm, and how you navigated it to find a robust and scalable solution?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T13:37:16.147Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer L3/L4/L5",
+      "userAnswer": "yeah i work on many project and solve them quickly\n"
+    },
+    "output": {
+      "question": "That's efficient! Can you elaborate on a specific instance where \"solving quickly\" meant you had to make trade-offs for scalability or maintainability in the long run? How did you assess those trade-offs and what was the eventual impact on the system's robustness?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T13:40:46.031Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Kakao",
+      "role": "Product Manager",
+      "userAnswer": "hi"
+    },
+    "output": {
+      "question": "Given Kakao's emphasis on professional competence, your \"hi\" is a very brief introduction. Can you elaborate on your experience and skills that make you a strong candidate for this Product Manager role, specifically highlighting instances where your technical understanding informed product strategy and execution?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T13:57:21.612Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Hardware Engineer",
+      "userAnswer": "umm i solve problem quickly\n"
+    },
+    "output": {
+      "question": "\"That's an interesting approach. Could you elaborate on a specific instance where your ability to 'solve problems quickly' led to a breakthrough in a *complex* hardware project, and how you ensured the solution was robust and scalable, not just a rapid fix?\""
+    }
+  },
+  {
+    "timestamp": "2026-06-07T13:57:36.619Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Hardware Engineer",
+      "userAnswer": "yes\n"
+    },
+    "output": {
+      "question": "Given your preference for quick problem-solving, can you describe a time you had to balance speed with long-term maintainability and impact? Specifically, how did you ensure your rapid solution integrated seamlessly into a larger system or product lifecycle at Google's scale, avoiding technical debt down the line?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T13:57:49.167Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Hardware Engineer",
+      "userAnswer": "well i did many projects"
+    },
+    "output": {
+      "question": "\"You mentioned doing \"many projects,\" which suggests broad experience. For one of those projects, can you detail a situation where a quick fix you implemented initially, while effective in the short term, later required significant rework due to unforeseen complexities? How did you or the team then address that technical debt, and what lessons did you learn about balancing immediate needs with Google's long-term engineering standards?\""
+    }
   }
 ]

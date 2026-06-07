@@ -39,69 +39,66 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. If not cached, call API — NO search grounding
-    const model = getModel(false)
-
-    const prompt = `
-You are a career research assistant with knowledge of thousands of companies worldwide.
-
-Research the company '${company}' and the role '${role}'.
-
-IMPORTANT: 
-- If '${company}' is a real, known company (startup, corporation, tech company, etc.) return full data
-- If '${company}' is clearly fake, nonsensical, or unknown, return isValid: false
-- Gemini knows most real companies — use your training knowledge
-
-If NOT a real company, return ONLY:
-{ "isValid": false }
-
-If IS a real company, return ONLY this JSON:
-{
-  "isValid": true,
-  "company": "${company}",
-  "role": "${role}",
-  "website": "official website URL",
-  "logo_url": "",
-  "hiring_focus": "what this company mainly hires for",
-  "interview_rounds": ["round 1", "round 2", "round 3"],
-  "what_they_reward": ["trait 1", "trait 2", "trait 3"],
-  "what_gets_rejected": ["reason 1", "reason 2"],
-  "cultural_notes": "2-3 sentences about their interview culture and what makes candidates stand out",
-  "recent_questions": ["question 1", "question 2", "question 3"],
-  "first_question": "one specific opening interview question for ${role} at ${company}"
-}
-
-Return ONLY valid JSON. No markdown. No explanation.`
-
-    const result = await model.generateContent(prompt)
-    const rawText = result.response.text()
-      .replace(/```json/gi, '')
-      .replace(/```/g, '')
-      .trim()
-
     let data;
     try {
+      const model = getModel(false)
+
+      const prompt = `
+      You are a career research assistant with knowledge of thousands of companies worldwide.
+      Research the company '${company}' and the role '${role}'.
+      Return ONLY this JSON:
+      {
+      "isValid": true,
+      "company": "${company}",
+      "role": "${role}",
+      "website": "official website URL",
+      "logo_url": "",
+      "hiring_focus": "what this company mainly hires for",
+      "interview_rounds": ["round 1", "round 2", "round 3"],
+      "what_they_reward": [
+        {"title": "reward name", "whyValued": "one sentence why this company specifically values this", "howToShow": "one specific actionable tip to demonstrate this in interview", "examplePhrase": "an actual phrase candidate can say in interview"}
+      ],
+      "what_gets_rejected": [
+        {"title": "reason name", "whatItLooksLike": "specific behavior that triggers this rejection", "howToAvoid": "one specific action to avoid this rejection", "neverSay": "exact phrase candidate should never say"}
+      ],
+      "cultural_notes": "2-3 sentences about their interview culture",
+      "recent_questions": ["question 1"],
+      "first_question": "first question",
+      "hiring_process": "process description",
+      "how_to_prepare": ["prep tip"],
+      "what_to_study": ["topic"],
+      "insider_tips": ["tip"],
+      "timeline": "time"
+      }
+      Return ONLY valid JSON. No markdown. No explanation.`
+
+      const result = await model.generateContent(prompt)
+      const rawText = result.response.text()
+        .replace(/```json/gi, '')
+        .replace(/```/g, '')
+        .trim()
+
       data = JSON.parse(rawText);
-    } catch (e) {
-      throw new Error(`Failed to parse AI response.`);
-    }
-
-    // 3. Save to Cache
-    saveCache(company, role, data);
-
-    if (!data.isValid) {
-      return NextResponse.json({ 
-        success: false, 
-        error: `"${company}" doesn't appear to be a recognized company. Please check the name and try again.` 
-      });
+      saveCache(company, role, data);
+    } catch (apiError: any) {
+        console.error('=== RESEARCH API FAILED ===', apiError);
+        // If quota exceeded, give a friendly message
+        if (apiError.message?.includes('429')) {
+             return NextResponse.json({ 
+                success: false, 
+                error: "API quota exceeded. Please try again in a few minutes, or use a pre-cached company (like Google)." 
+            });
+        }
+        throw apiError;
     }
 
     return NextResponse.json({ success: true, data })
 
   } catch (error: any) {
-    console.error('=== RESEARCH API ERROR ===', error?.message)
+    console.error('=== RESEARCH API ERROR ===', error)
     return NextResponse.json({
       success: false,
-      error: `Something went wrong. Please try again.`
+      error: `Error: ${error.message || 'Something went wrong.'}`
     })
   }
-}
+  }
