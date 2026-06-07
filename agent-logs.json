@@ -1,0 +1,210 @@
+[
+  {
+    "timestamp": "2026-06-06T17:57:25.608Z",
+    "agent": "Agent A - Fallback",
+    "input": {
+      "company": "kakao",
+      "role": "full-stack"
+    },
+    "output": {
+      "company": "kakao",
+      "role": "full-stack",
+      "interview_rounds": [
+        "Recruiter screen (30 min)",
+        "Technical interview (60 min)",
+        "Culture fit interview (45 min)"
+      ],
+      "what_they_reward": [
+        "Clear structured thinking",
+        "Specific examples with metrics",
+        "Genuine curiosity and learning mindset",
+        "Strong communication skills"
+      ],
+      "what_gets_rejected": [
+        "Vague answers without examples",
+        "No metrics or measurable outcomes",
+        "Poor communication of thought process"
+      ],
+      "cultural_notes": "kakao values candidates who think clearly, communicate well, and demonstrate real impact. Show genuine enthusiasm for the role.",
+      "recent_questions": [
+        "Tell me about a challenging project you worked on",
+        "How do you handle tight deadlines?",
+        "Where do you see yourself in 3 years?"
+      ],
+      "first_question": "Tell me about yourself and what excites you about the full-stack role at kakao."
+    }
+  },
+  {
+    "timestamp": "2026-06-06T18:21:01.883Z",
+    "agent": "Agent A - Fallback",
+    "input": {
+      "company": "naver",
+      "role": "backend"
+    },
+    "output": {
+      "company": "naver",
+      "role": "backend",
+      "interview_rounds": [
+        "Recruiter screen (30 min)",
+        "Technical interview (60 min)",
+        "Culture fit interview (45 min)"
+      ],
+      "what_they_reward": [
+        "Clear structured thinking",
+        "Specific examples with metrics",
+        "Genuine curiosity and learning mindset",
+        "Strong communication skills"
+      ],
+      "what_gets_rejected": [
+        "Vague answers without examples",
+        "No metrics or measurable outcomes",
+        "Poor communication of thought process"
+      ],
+      "cultural_notes": "naver values candidates who think clearly, communicate well, and demonstrate real impact. Show genuine enthusiasm for the role.",
+      "recent_questions": [
+        "Tell me about a challenging project you worked on",
+        "How do you handle tight deadlines?",
+        "Where do you see yourself in 3 years?"
+      ],
+      "first_question": "Tell me about yourself and what excites you about the backend role at naver."
+    }
+  },
+  {
+    "timestamp": "2026-06-06T18:22:20.134Z",
+    "agent": "Agent A - Fallback",
+    "input": {
+      "company": "naver",
+      "role": "frontend"
+    },
+    "output": {
+      "company": "naver",
+      "role": "frontend",
+      "interview_rounds": [
+        "Recruiter screen (30 min)",
+        "Technical interview (60 min)",
+        "Culture fit interview (45 min)"
+      ],
+      "what_they_reward": [
+        "Clear structured thinking",
+        "Specific examples with metrics",
+        "Genuine curiosity and learning mindset",
+        "Strong communication skills"
+      ],
+      "what_gets_rejected": [
+        "Vague answers without examples",
+        "No metrics or measurable outcomes",
+        "Poor communication of thought process"
+      ],
+      "cultural_notes": "naver values candidates who think clearly, communicate well, and demonstrate real impact. Show genuine enthusiasm for the role.",
+      "recent_questions": [
+        "Tell me about a challenging project you worked on",
+        "How do you handle tight deadlines?",
+        "Where do you see yourself in 3 years?"
+      ],
+      "first_question": "Tell me about yourself and what excites you about the frontend role at naver."
+    }
+  },
+  {
+    "timestamp": "2026-06-06T18:30:23.491Z",
+    "agent": "Agent A - Fallback",
+    "input": {
+      "company": "toss",
+      "role": "frontend"
+    },
+    "output": {
+      "company": "toss",
+      "role": "frontend",
+      "interview_rounds": [
+        "Recruiter screen (30 min)",
+        "Technical interview (60 min)",
+        "Culture fit interview (45 min)"
+      ],
+      "what_they_reward": [
+        "Clear structured thinking",
+        "Specific examples with metrics",
+        "Genuine curiosity and learning mindset",
+        "Strong communication skills"
+      ],
+      "what_gets_rejected": [
+        "Vague answers without examples",
+        "No metrics or measurable outcomes",
+        "Poor communication of thought process"
+      ],
+      "cultural_notes": "toss values candidates who think clearly, communicate well, and demonstrate real impact. Show genuine enthusiasm for the role.",
+      "recent_questions": [
+        "Tell me about a challenging project you worked on",
+        "How do you handle tight deadlines?",
+        "Where do you see yourself in 3 years?"
+      ],
+      "first_question": "Tell me about yourself and what excites you about the frontend role at toss."
+    }
+  },
+  {
+    "timestamp": "2026-06-06T18:32:40.836Z",
+    "agent": "Agent A - Fallback",
+    "input": {
+      "company": "toss",
+      "role": "frontend"
+    },
+    "output": {
+      "company": "toss",
+      "role": "frontend",
+      "interview_rounds": [
+        "Recruiter screen (30 min)",
+        "Technical interview (60 min)",
+        "Culture fit interview (45 min)"
+      ],
+      "what_they_reward": [
+        "Clear structured thinking",
+        "Specific examples with metrics",
+        "Genuine curiosity and learning mindset",
+        "Strong communication skills"
+      ],
+      "what_gets_rejected": [
+        "Vague answers without examples",
+        "No metrics or measurable outcomes",
+        "Poor communication of thought process"
+      ],
+      "cultural_notes": "toss values candidates who think clearly, communicate well, and demonstrate real impact. Show genuine enthusiasm for the role.",
+      "recent_questions": [
+        "Tell me about a challenging project you worked on",
+        "How do you handle tight deadlines?",
+        "Where do you see yourself in 3 years?"
+      ],
+      "first_question": "Tell me about yourself and what excites you about the frontend role at toss."
+    }
+  },
+  {
+    "timestamp": "2026-06-06T18:33:15.525Z",
+    "agent": "Agent B - Fallback",
+    "input": {
+      "company": "toss",
+      "role": "frontend"
+    },
+    "output": {
+      "question": "fallback used"
+    }
+  },
+  {
+    "timestamp": "2026-06-06T18:33:59.945Z",
+    "agent": "Agent B - Fallback",
+    "input": {
+      "company": "toss",
+      "role": "frontend"
+    },
+    "output": {
+      "question": "fallback used"
+    }
+  },
+  {
+    "timestamp": "2026-06-06T18:34:06.632Z",
+    "agent": "Agent B - Fallback",
+    "input": {
+      "company": "toss",
+      "role": "frontend"
+    },
+    "output": {
+      "question": "fallback used"
+    }
+  }
+]
