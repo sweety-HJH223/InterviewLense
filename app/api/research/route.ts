@@ -1,27 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getModel } from '@/lib/gemini'
-import fs from 'fs'
-import path from 'path'
+import { db } from '@/lib/firebase'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
-const CACHE_PATH = path.join(process.cwd(), 'research-cache.json');
-
-const getCachedResearch = (company: string, role: string) => {
+const getCachedResearch = async (company: string, role: string) => {
   try {
-    if (fs.existsSync(CACHE_PATH)) {
-      const cache = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf-8'));
-      return cache[`${company.toLowerCase()}-${role.toLowerCase()}`] || null;
-    }
-  } catch {}
-  return null;
+    const docRef = doc(db, 'researchCache', `${company.toLowerCase()}-${role.toLowerCase()}`);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists() ? docSnap.data() : null;
+  } catch (e) {
+    console.error('Cache fetch error', e);
+    return null;
+  }
 }
 
-const saveCache = (company: string, role: string, data: any) => {
-  let cache: any = {};
+const saveCache = async (company: string, role: string, data: any) => {
   try {
-    if (fs.existsSync(CACHE_PATH)) cache = JSON.parse(fs.readFileSync(CACHE_PATH, 'utf-8'));
-  } catch {}
-  cache[`${company.toLowerCase()}-${role.toLowerCase()}`] = data;
-  fs.writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2));
+    const docRef = doc(db, 'researchCache', `${company.toLowerCase()}-${role.toLowerCase()}`);
+    await setDoc(docRef, data);
+  } catch (e) {
+    console.error('Cache save error', e);
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -30,7 +29,7 @@ export async function POST(req: NextRequest) {
     const { company, role } = body
 
     // 1. Check Cache First
-    const cached = getCachedResearch(company, role);
+    const cached = await getCachedResearch(company, role);
     if (cached) {
       if (!cached.isValid) {
         return NextResponse.json({ success: false, error: "Company/Role not found" });
@@ -38,7 +37,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, data: cached });
     }
 
-    // 2. If not cached, call API — NO search grounding
+    // 2. If not cached, call API
     let data;
     try {
       const model = getModel(false)
@@ -79,10 +78,9 @@ export async function POST(req: NextRequest) {
         .trim()
 
       data = JSON.parse(rawText);
-      saveCache(company, role, data);
+      await saveCache(company, role, data);
     } catch (apiError: any) {
         console.error('=== RESEARCH API FAILED ===', apiError);
-        // If quota exceeded, give a friendly message
         if (apiError.message?.includes('429')) {
              return NextResponse.json({ 
                 success: false, 
@@ -101,4 +99,4 @@ export async function POST(req: NextRequest) {
       error: `Error: ${error.message || 'Something went wrong.'}`
     })
   }
-  }
+}
