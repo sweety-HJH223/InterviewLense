@@ -358,5 +358,77 @@
     "output": {
       "question": "\"You mentioned doing \"many projects,\" which suggests broad experience. For one of those projects, can you detail a situation where a quick fix you implemented initially, while effective in the short term, later required significant rework due to unforeseen complexities? How did you or the team then address that technical debt, and what lessons did you learn about balancing immediate needs with Google's long-term engineering standards?\""
     }
+  },
+  {
+    "timestamp": "2026-06-07T15:27:16.923Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "Sure! One of my most challenging recent projects was building InterviewLens — an AI powered interview simulator using Next.js, TypeScript, Firebase and Gemini API.\nThe main challenge was designing a system that could research any company's hiring process dynamically and simulate realistic interview rounds.\nFor technical decisions — I chose Next.js for server side rendering to improve performance, Firebase for real time session storage, and Gemini API for generating company specific interview questions.\nOne specific challenge was making company data truly specific rather than generic. I solved this by carefully engineering the Gemini prompt to include company name and role explicitly, which gave much more accurate and relevant results.\nThe result is a fully deployed application that simulates real interview rounds with company specific questions, scoring, and feedback — live at interview-lense.vercel.app\n"
+    },
+    "output": {
+      "question": "That's a fascinating project! You mentioned engineering the Gemini prompt for specificity. Can you elaborate on how you approached the trade-offs between prompt complexity and the API call latency, especially considering the real-time nature of an interview simulation?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:27:56.760Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "Great question! This was actually one of the most interesting technical challenges.\nThe core trade-off was between prompt richness and response speed. Initially my prompt was very detailed — requesting hiring process, interview rounds, rewards, rejection reasons, study topics, insider tips and timeline all in one call. This gave comprehensive data but took 4-5 seconds which felt slow.\nMy approach to balance this:\nFirst — I kept ONE single API call but structured the prompt to return everything as a single JSON object. This is faster than multiple calls because each API call has its own network overhead.\nSecond — I added a loading state with meaningful UI feedback — showing 'Researching Google hiring process...' so the wait felt purposeful rather than broken.\nThird — I structured the JSON response strictly so parsing was instant on the frontend — no additional processing needed after receiving data.\nThe trade-off I consciously made was — slightly longer initial load is acceptable because this research phase happens ONCE before interview starts. During the actual interview simulation, all questions come from a different lighter prompt, so response feels real-time.\nIf I were to optimize further — I would implement streaming responses so data appears progressively rather than all at once, and potentially cache company research data in Firebase so repeat searches for same company are instant."
+    },
+    "output": {
+      "question": "You mentioned consciously accepting a slightly longer initial load for comprehensive company research, and then a lighter prompt for real-time interview questions. How did you validate that this performance trade-off was indeed acceptable to users, and what mechanisms did you consider implementing to proactively identify and address potential user frustration with that initial loading experience in a real-world deployment?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:28:56.150Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "That's an excellent question and honestly something I thought deeply about.\nFor validation — in my current version I relied on observational testing. I asked friends and peers to use the app and watched where they hesitated or seemed frustrated. The key insight was that users were fine with 4-5 second wait IF they understood what was happening. When I added the specific loading message 'Researching Google hiring process...' instead of a generic spinner — drop off reduced significantly.\nHowever I recognize that's informal validation. In a real world deployment I would implement three things:\nFirst — quantitative measurement. I would use Firebase Analytics or a tool like Mixpanel to track loading time percentiles — p50, p75, p95. If p95 users are waiting more than 8 seconds that's a clear signal to optimize.\nSecond — error boundary monitoring. I would implement Sentry or similar to catch cases where the Gemini API times out or returns malformed JSON — these silent failures are worse than slow loads because users see a broken experience with no explanation.\nThird — progressive loading. Rather than waiting for complete JSON response, I would implement streaming so users see hiring process appear first within 1-2 seconds, then other sections load progressively. This makes the experience feel faster even if total time is same — perceived performance matters as much as actual performance.\nThe mechanism to proactively identify frustration would be rage click detection — if users click Begin Interview before research loads, that's a signal they're frustrated with the wait. I would use that as a trigger to either speed up the call or show a more engaging loading experience.\nUltimately the acceptable threshold depends on context — someone preparing for a Google interview is highly motivated and will tolerate more friction than a casual user. That context made me confident the trade-off was acceptable for this specific use case."
+    },
+    "output": {
+      "question": "You've outlined a robust plan for measuring and addressing user frustration with loading times, demonstrating a good understanding of user experience and iteration. Given Google's emphasis on proactive problem-solving and anticipating potential issues *before* they impact users at scale, how would you have approached the initial design of the company research feature to *minimize* the possibility of slow loads and user frustration from the outset, rather than just reacting to it?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:29:56.530Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "yeah\n"
+    },
+    "output": {
+      "question": "Can you tell me about a time you had to make a significant technical decision with incomplete information or when the project goals were evolving? How did you approach gathering the necessary information and ensure your solution would remain adaptable as the requirements became clearer?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:30:05.795Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "uuu"
+    },
+    "output": {
+      "question": "That's a common situation here. Can you walk me through how you'd communicate that uncertainty and your proposed evolving solution to stakeholders, ensuring they understand the trade-offs and potential shifts in direction? What mechanisms would you put in place to solicit feedback and course-correct efficiently as more clarity emerged?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:30:16.569Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "noo"
+    },
+    "output": {
+      "question": "Given that you're finding it challenging to elaborate on this, could you describe a time you *observed* a colleague effectively navigate evolving requirements and incomplete information, and what specific behaviors or communication strategies did they employ that you found particularly impactful?"
+    }
   }
 ]

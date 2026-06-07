@@ -119,13 +119,22 @@ export function InterviewPanel() {
   const handleStart = async () => {
     setIsCompanyLoading(true)
     setError(null)
+    console.log('Starting research for:', company, role);
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
     try {
         const response = await fetch('/api/research', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ company, role })
+            body: JSON.stringify({ company, role }),
+            signal: controller.signal
         })
         const result = await response.json()
+        clearTimeout(timeoutId);
+        
+        console.log('Research API result:', result);
         if (!result.success) {
             setError(result.error)
             setIsCompanyLoading(false)
@@ -133,8 +142,10 @@ export function InterviewPanel() {
         }
         setResearchData(result.data)
         setStep('intel')
-    } catch {
-        setError("Failed to connect.")
+    } catch (e: any) {
+        clearTimeout(timeoutId);
+        console.error('Research API Error:', e);
+        setError(e.name === 'AbortError' ? "Request timed out." : "Failed to connect.")
     } finally {
         setIsCompanyLoading(false)
     }
