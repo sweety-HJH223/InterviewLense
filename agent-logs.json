@@ -430,5 +430,125 @@
     "output": {
       "question": "Given that you're finding it challenging to elaborate on this, could you describe a time you *observed* a colleague effectively navigate evolving requirements and incomplete information, and what specific behaviors or communication strategies did they employ that you found particularly impactful?"
     }
+  },
+  {
+    "timestamp": "2026-06-07T15:52:16.691Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "yehs"
+    },
+    "output": {
+      "question": "That's an interesting start! Since \"yehs\" doesn't give me much to go on, could you elaborate on a specific technical challenge you faced and walk me through the trade-offs you considered when making your decisions? I'm particularly interested in understanding how you balanced competing priorities, like performance, maintainability, and scalability, in that situation."
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:52:28.329Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "kinda"
+    },
+    "output": {
+      "question": "You've mentioned a couple of times that things were \"kinda\" a certain way. Could you give me a concrete example of a situation where you had to drive clarity from ambiguity, perhaps by defining requirements or making a decision with incomplete information, and what was the outcome of that?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:52:33.010Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "yeah"
+    },
+    "output": {
+      "question": "You've indicated you're comfortable with ambiguity, which is key here at Google. Can you share an example where you had to make a significant technical decision with incomplete information or while facing considerable uncertainty, and how you navigated that ambiguity to ensure the project still met our high technical standards and wouldn't create downstream issues for others?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:54:07.454Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "i am the best"
+    },
+    "output": {
+      "question": "That's a bold statement! Given that Google thrives on collaboration and learning from others, could you instead describe a time when you received constructive criticism on your technical approach and how you incorporated that feedback to improve the project?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:54:16.066Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "a lot"
+    },
+    "output": {
+      "question": "It sounds like you've encountered a lot of feedback. Can you give me a specific example of how you integrated a particular piece of constructive criticism into a project, and what the tangible impact of that change was?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T15:54:28.001Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "uncountable "
+    },
+    "output": {
+      "question": "You've mentioned your feedback is \"uncountable,\" which implies a lot of it. Can you walk me through one specific instance where you initially disagreed with a piece of feedback, but through discussion and deeper analysis, you came to understand its value and how you then implemented it, ultimately leading to a better technical outcome?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T16:34:39.403Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "in my resume"
+    },
+    "output": {
+      "question": "You mentioned building a B2B compliance verification system with a focus on structured output enforcement using Gemini 2.5 Flash. Can you walk me through a specific instance where the LLM's output deviated from your `Pydantic` model, and how you diagnosed and addressed that issue to maintain data integrity?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T16:34:47.145Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "yeah i am greate"
+    },
+    "output": {
+      "question": "Your K-Trust project mentions using a structured mock intelligence database for O(1) merchant lookup. Can you elaborate on how you designed that mock database and what trade-offs you considered to achieve that performance, especially if the real-world data complexity were to grow significantly?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T16:34:57.352Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "yeah"
+    },
+    "output": {
+      "question": "You've highlighted the use of `Pydantic` for structured output enforcement with Gemini 2.5 Flash in your K-Trust project, which is excellent for ensuring data integrity. At Google, we often deal with highly distributed systems and complex data pipelines where unexpected inputs or edge cases can arise at scale. Could you describe a situation where you encountered unexpected data format or content from an external API or source, and how you implemented robust error handling and validation to prevent downstream failures or data corruption, similar to how you would approach potential LLM output variations in a production environment?"
+    }
+  },
+  {
+    "timestamp": "2026-06-07T16:37:40.919Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "as you can see i have made full stack projects in my resume , i have also made chatbot for my portfolio site"
+    },
+    "output": {
+      "question": "That's great that you've built a diverse range of projects. For K-Trust, you mentioned simulating scraped Korean court records, tax filings, and sentiment data. Can you elaborate on how you approached dealing with the inherent ambiguity and potential unreliability of that simulated unstructured data to ensure the AI-powered compliance scoring was deterministic and trustworthy?"
+    }
   }
 ]

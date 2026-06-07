@@ -23,7 +23,7 @@ const logAgent = (agent: string, input: any, output: any) => {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { company, role, researchData, conversationHistory, userAnswer } = body
+    const { company, role, researchData, conversationHistory, userAnswer, resumeText } = body
 
     const model = getModel(false)
 
@@ -35,8 +35,14 @@ export async function POST(req: NextRequest) {
       ? researchData.what_gets_rejected.join(', ')
       : 'vague answers, no concrete examples'
 
+    const resumeContext = resumeText 
+      ? `Candidate's Background/Resume: ${resumeText}`
+      : "No resume provided. Conduct a standard professional interview."
+
     const prompt = `
 You are a senior interviewer at ${company} interviewing for ${role}.
+${resumeContext}
+
 You MUST generate a follow-up question that is specifically tailored to the culture and expectations of ${company}.
 
 Culture: ${culturalNotes}
@@ -48,7 +54,10 @@ ${conversationHistory.map((m: any) => `${m.type === 'user' ? 'Candidate' : 'Inte
 
 Candidate said: "${userAnswer}"
 
-CRITICAL INSTRUCTION: Generate ONE specific, challenging follow-up question that tests for the rewarded traits or addresses gaps in the candidate's answer. Do not use generic interview questions. 2-3 sentences max. Interviewer only.`
+CRITICAL INSTRUCTION: Generate ONE specific, challenging follow-up question. 
+If a resume was provided, find a gap between their skills and ${company}'s needs, or ask how their past experience specifically prepares them for this role.
+If no resume was provided, conduct a standard high-quality interview.
+2-3 sentences max. Interviewer only.`
 
     const result = await model.generateContent(prompt)
     const question = result.response.text().trim()
