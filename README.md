@@ -44,7 +44,7 @@ Evaluates every answer against that specific company's criteria. Returns a score
 ## Getting Started
 
 ```bash
-git clone https://github.com/yourusername/interviewlens
+git clone https://github.com/sweety-HJH223/interviewlens
 cd interviewlens
 npm install
 ```
