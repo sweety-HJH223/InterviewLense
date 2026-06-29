@@ -66,5 +66,7 @@ Visit `/logs` to see all 3 agents communicating in real time.
 ## Built For
 
 Google Gen AI Academy APAC 2026 — Meet the Builders Campaign
+  by Subhashree Behera
 
-Built by Subhashree Behera
+## 👩‍💻 Built By
+**SweetyCodes** — [sweetycodes-jh.vercel.app](https://sweetycodes-jh.vercel.app/)
