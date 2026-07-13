@@ -370,6 +370,7 @@ const handleSignOut = async () => {
             role,
             messages,
             agentLogs: summaries,
+            finalVerdict: data.data, 
           })
         })
       } catch (err) {
@@ -412,6 +413,7 @@ const handleSignOut = async () => {
   {user ? (
     <div className="flex items-center justify-center gap-3 text-sm text-slate-400">
       <span>Signed in as {user.displayName}</span>
+      <a href="/sessions" className="text-indigo-400 hover:underline">Past Interviews</a>
       <button onClick={handleSignOut} className="text-indigo-400 hover:underline">Sign out</button>
     </div>
   ) : (

@@ -5,7 +5,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { company, role, messages, agentLogs, userId } = body;
+    const { company, role, messages, agentLogs, userId, finalVerdict } = body;
 
     const docRef = await addDoc(collection(db, 'interviews'), {
       userId,
@@ -13,6 +13,7 @@ export async function POST(req: Request) {
       role,
       messages,
       agentLogs,
+      finalVerdict: finalVerdict || null,
       messageCount: messages.length,
       createdAt: serverTimestamp(),
     });
