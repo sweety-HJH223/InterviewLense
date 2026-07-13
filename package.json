@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
-    "@google/generative-ai": "^0.24.1",
+    "@google/genai": "^2.11.0",
     "@vercel/analytics": "1.6.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -32,5 +32,12 @@
     "postcss": "^8.5",
     "tailwindcss": "^4.2.0",
     "typescript": "5.7.3"
+  },
+  "allowScripts": {
+    "@firebase/util@1.15.1": true,
+    "msw@2.14.6": true,
+    "protobufjs@7.6.2": true,
+    "sharp@0.34.5": true,
+    "@google/genai@2.11.0": true
   }
 }

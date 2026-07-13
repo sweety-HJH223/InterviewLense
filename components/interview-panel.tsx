@@ -3,7 +3,7 @@
 import { useState, useMemo, useRef, useEffect, ReactNode } from 'react'
 import { Send, Star, CheckCircle, AlertTriangle, ChevronDown, User, Search, Building, Upload, FileText, Loader2 } from 'lucide-react'
 import { auth } from '@/lib/firebase'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, User as FirebaseUser } from 'firebase/auth'
 
 interface RewardItem { title: string; whyValued: string; howToShow: string; examplePhrase: string; }
 interface RejectionItem { title: string; whatItLooksLike: string; howToAvoid: string; neverSay: string; }
@@ -89,6 +89,20 @@ export function InterviewPanel() {
   const [currentRoundSummary, setCurrentRoundSummary] = useState<RoundSummary | null>(null)
   const [finalVerdict, setFinalVerdict] = useState<FinalVerdict | null>(null)
   const [candidateId, setCandidateId] = useState<string | null>(null)
+  const [user, setUser] = useState<FirebaseUser | null>(null)
+
+const handleGoogleSignIn = async () => {
+  const provider = new GoogleAuthProvider()
+  try {
+    await signInWithPopup(auth, provider)
+  } catch (err) {
+    console.error('Sign-in failed:', err)
+  }
+}
+
+const handleSignOut = async () => {
+  await signOut(auth)
+}
   const [isSending, setIsSending] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -103,6 +117,7 @@ export function InterviewPanel() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user)
       setCandidateId(user ? user.uid : null)
     })
     return () => unsubscribe()
@@ -345,6 +360,21 @@ export function InterviewPanel() {
       })
       const data = await verdictResponse.json()
       setFinalVerdict(data.data)
+      try {
+        await fetch('/api/save-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: candidateId || 'anonymous-user',
+            company,
+            role,
+            messages,
+            agentLogs: summaries,
+          })
+        })
+      } catch (err) {
+        console.error('Failed to save session:', err)
+      }
     } catch {
       setFinalVerdict({
         decision: 'NOT SELECTED',
@@ -378,6 +408,21 @@ export function InterviewPanel() {
             <Star className="text-indigo-400 w-10 h-10" style={{ filter: 'drop-shadow(0 0 8px rgba(99, 102, 241, 0.5))' }} />
           </div>
           <h1 className="text-4xl font-extrabold text-slate-50 tracking-tight">Ace Your Next Interview</h1>
+          <div className="pt-2">
+  {user ? (
+    <div className="flex items-center justify-center gap-3 text-sm text-slate-400">
+      <span>Signed in as {user.displayName}</span>
+      <button onClick={handleSignOut} className="text-indigo-400 hover:underline">Sign out</button>
+    </div>
+  ) : (
+    <button 
+      onClick={handleGoogleSignIn} 
+      className="inline-flex items-center gap-2 bg-white text-slate-900 px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-100 transition"
+    >
+      Sign in with Google
+    </button>
+  )}
+</div>
         </div>
         <div className="glass-card p-8 space-y-6">
           {error && <p className="text-red-400 text-sm">{error}</p>}

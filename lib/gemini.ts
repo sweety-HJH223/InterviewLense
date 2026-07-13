@@ -1,13 +1,52 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent"
 
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY is not set')
+function geminiHeaders(apiKey: string): HeadersInit {
+  return {
+    "Content-Type": "application/json",
+    "x-goog-api-key": apiKey,
+  }
 }
 
-export const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const getModel = (useSearch: boolean = false) => {
-  return genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash-lite',
-  })
+  return {
+    generateContent: async (prompt: string) => {
+      const apiKey = process.env.GEMINI_API_KEY
+      if (!apiKey) throw new Error("GEMINI_API_KEY is not configured")
+
+      const maxRetries = 3
+      let lastError: Error | null = null
+
+      for (let attempt = 0; attempt < maxRetries; attempt++) {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: geminiHeaders(apiKey),
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+          }),
+        })
+
+        const data = await res.json()
+
+        if (res.ok) {
+          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? ""
+          return { response: { text: () => text } }
+        }
+
+        // Only retry on 503 (overloaded) or 429 (rate limited) — fail fast on everything else
+        if (res.status === 503 || res.status === 429) {
+          console.warn(`Gemini API ${res.status}, retrying (attempt ${attempt + 1}/${maxRetries})...`)
+          lastError = new Error(`Gemini API error: ${res.status}`)
+          await sleep(1000 * Math.pow(2, attempt)) // 1s, 2s, 4s backoff
+          continue
+        }
+
+        console.error("Gemini API error:", res.status, JSON.stringify(data))
+        throw new Error(`Gemini API error: ${res.status}`)
+      }
+
+      throw lastError ?? new Error("Gemini API error: max retries exceeded")
+    },
+  }
 }

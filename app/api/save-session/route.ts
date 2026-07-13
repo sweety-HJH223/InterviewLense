@@ -5,9 +5,10 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { company, role, messages, agentLogs } = body;
+    const { company, role, messages, agentLogs, userId } = body;
 
     const docRef = await addDoc(collection(db, 'interviews'), {
+      userId,
       company,
       role,
       messages,

@@ -186,5 +186,29 @@
     "DevOps Engineer",
     "Machine Learning Engineer",
     "Quality Assurance Engineer"
+  ],
+  "stripe": [
+    "Software Engineer",
+    "Product Manager",
+    "Solutions Architect",
+    "Data Scientist",
+    "Technical Support Engineer",
+    "Engineering Manager",
+    "Account Executive",
+    "Product Designer",
+    "Security Engineer",
+    "DevOps Engineer"
+  ],
+  "toss": [
+    "Software Engineer",
+    "Product Manager",
+    "Data Analyst",
+    "UX Designer",
+    "Customer Support Specialist",
+    "Financial Analyst",
+    "Operations Manager",
+    "Marketing Manager",
+    "QA Engineer",
+    "Security Engineer"
   ]
 }
