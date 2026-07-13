@@ -398,7 +398,7 @@ const handleSignOut = async () => {
   }
 
   if (step === 'input') return (
-    <main className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    <main className="min-h-screen flex items-center justify-center p-6 relative ">
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/20 blur-[120px] animate-pulse"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-600/20 blur-[120px] animate-pulse delay-1000"></div>
