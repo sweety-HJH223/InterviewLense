@@ -39,10 +39,12 @@ Evaluates every answer against that specific company's criteria. Returns a score
 - 💾 Save and review past sessions
 - 📋 Agent pipeline logs viewer
 
+## Live link : https://interview-lense.vercel.app/
+
 ## Getting Started
 
 ```bash
-git clone https://github.com/yourusername/interviewlens
+git clone https://github.com/sweety-HJH223/interviewlens
 cd interviewlens
 npm install
 ```
@@ -64,5 +66,7 @@ Visit `/logs` to see all 3 agents communicating in real time.
 ## Built For
 
 Google Gen AI Academy APAC 2026 — Meet the Builders Campaign
+  by Subhashree Behera
 
-Built by Subhashree Behera
+## 👩‍💻 Built By
+**SweetyCodes** — [sweetycodes-jh.vercel.app](https://sweetycodes-jh.vercel.app/)
