@@ -9,9 +9,16 @@ function geminiHeaders(apiKey: string): HeadersInit {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+type Part = string | { inlineData: { data: string; mimeType: string } }
+
+function toParts(prompt: string | Part[]): { text?: string; inlineData?: { data: string; mimeType: string } }[] {
+  const items = Array.isArray(prompt) ? prompt : [prompt]
+  return items.map((p) => (typeof p === "string" ? { text: p } : p))
+}
+
 export const getModel = (useSearch: boolean = false) => {
   return {
-    generateContent: async (prompt: string) => {
+    generateContent: async (prompt: string | Part[]) => {
       const apiKey = process.env.GEMINI_API_KEY
       if (!apiKey) throw new Error("GEMINI_API_KEY is not configured")
 
@@ -23,7 +30,7 @@ export const getModel = (useSearch: boolean = false) => {
           method: "POST",
           headers: geminiHeaders(apiKey),
           body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
+            contents: [{ parts: toParts(prompt) }],
           }),
         })
 
@@ -34,11 +41,10 @@ export const getModel = (useSearch: boolean = false) => {
           return { response: { text: () => text } }
         }
 
-        // Only retry on 503 (overloaded) or 429 (rate limited) — fail fast on everything else
         if (res.status === 503 || res.status === 429) {
           console.warn(`Gemini API ${res.status}, retrying (attempt ${attempt + 1}/${maxRetries})...`)
           lastError = new Error(`Gemini API error: ${res.status}`)
-          await sleep(1000 * Math.pow(2, attempt)) // 1s, 2s, 4s backoff
+          await sleep(1000 * Math.pow(2, attempt))
           continue
         }
 
