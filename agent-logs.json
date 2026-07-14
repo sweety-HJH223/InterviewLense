@@ -550,5 +550,40 @@
     "output": {
       "question": "That's great that you've built a diverse range of projects. For K-Trust, you mentioned simulating scraped Korean court records, tax filings, and sentiment data. Can you elaborate on how you approached dealing with the inherent ambiguity and potential unreliability of that simulated unstructured data to ensure the AI-powered compliance scoring was deterministic and trustworthy?"
     }
+  },
+  {
+    "timestamp": "2026-07-14T04:42:45.470Z",
+    "agent": "Agent C - Evaluator",
+    "input": {
+      "question": "Hello! I'm interviewing you for the Software Engineer position at Google. Can you walk me through a time you had to solve a complex technical problem with limited resources?",
+      "answer": "I optimized code to reduce API calls for the same request by caching data after the first call"
+    },
+    "output": {
+      "score": 2,
+      "verdict": "The response is critically underdeveloped and fails to meet the standard expected for a Software Engineer at Google.",
+      "strengths": [
+        "Identifies a relevant technical concept (caching) that is applicable to software engineering."
+      ],
+      "improvements": [
+        "Apply the STAR (Situation, Task, Action, Result) method immediately. Your answer lacked context, the scale of the problem, and the specific impact.",
+        "Address the 'limited resources' constraint explicitly; caching is a standard practice, but you didn't explain why it was difficult or how it solved a specific resource bottleneck.",
+        "Leverage your actual project experience (e.g., InterviewLens or K-Trust). Mentioning how you handled API limits with Gemini 2.5 Flash Lite would have been a much stronger, personalized example.",
+        "Avoid one-sentence answers. A behavioral question requires a narrative that demonstrates your thought process and technical depth."
+      ],
+      "better_answer": "In my InterviewLens project, I faced a challenge where a multi-agent system was triggering excessive API calls, hitting rate limits and increasing latency. My goal was to maintain the state across three agents while staying within the free-tier API constraints. I implemented a centralized caching layer using Firebase Firestore to store the research agent's output. By checking the cache before triggering the subsequent agents, I reduced redundant API calls by 40% and improved response time from 5 seconds to under 800ms. This ensured that the user experience remained seamless even when the agents were re-triggered for session persistence, demonstrating a balance between system functionality and resource optimization.",
+      "cultural_tip": "Google interviewers look for 'Googliness' and technical depth. They want to hear about your trade-offs. Don't just say what you did—explain why you chose that specific solution over others and how you validated the results."
+    }
+  },
+  {
+    "timestamp": "2026-07-14T04:42:46.906Z",
+    "agent": "Agent B - Interviewer",
+    "input": {
+      "company": "Google",
+      "role": "Software Engineer",
+      "userAnswer": "I optimized code to reduce API calls for the same request by caching data after the first call"
+    },
+    "output": {
+      "question": "That's a good start, but in a production environment like Google’s, how would you handle cache invalidation or consistency issues if the underlying data changes frequently? Furthermore, how did you decide on your caching strategy (e.g., TTL vs. event-driven) while balancing memory usage against latency requirements for that specific application?"
+    }
   }
 ]
